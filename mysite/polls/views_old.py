@@ -19,10 +19,8 @@ vote action handles voting for a particular choice in a particular question
 #
 
 from django.http import HttpResponse
-
 from django.template import loader
 from .models import Question
-
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -30,9 +28,7 @@ from django.urls import reverse
 #exception reutrn httpresponse http404
 def index(request):
     latest_question_list=Question.objects.order_by('-pub_date')[:5]
-
-    template=loader.get_template('polls/index.heml')
-
+    template=loader.get_template('polls/index.html')
     context={
         'latest_question_list':latest_question_list,
         }
