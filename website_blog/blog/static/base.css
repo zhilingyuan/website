@@ -10,10 +10,12 @@ body{
 		div.nav a{
 			color: #000;
 			text-decoration: none;
+			margin: 4px;
 		}
 		div.nav a.logo{
 			display: inline-block;
 			text-decoration: none;
+			margin: 4px;
 		}
 		h3.welcome{
 			font-size: 220%;

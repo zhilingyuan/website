@@ -1,19 +1,10 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title>{{blog.title}}</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
-</head>
-<body>
-	<div class="nav">
-		<a class="logo" href="{% url 'blog:index' %}">
-			<h3>文章博客</h3>
-		</a>
-		<a href="/">首页</a>
-		<a href="{% url 'blog:index' %}">博客</a>
-	</div>
-	<hr>
+{% extends 'base.html' %}
+
+{% block title %}
+{{blog.title}}
+{% endblock %}
+
+{% block content %}
 	<a href="{% url 'blog:detail' blog.pk %}">
 	<h3>{{blog.title}}</h3>
 	</a>
@@ -24,5 +15,4 @@
 	{{blog.blog_type}}</p>
 	</a>
 	<p>{{blog.content}}</p>
-</body>
-</html>
+{% endblock %}
