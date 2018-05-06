@@ -4,6 +4,10 @@
 	我的文章
 {% endblock %}
 
+{% block nav_blog_active %}
+active
+{% endblock %}
+
 {% block content %}
 	{% for blog in latest_blog_list %}
 	<a href="{% url 'blog:detail' blog.pk %}">

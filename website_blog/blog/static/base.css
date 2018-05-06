@@ -1,7 +1,8 @@
-body{
+*{
 			margin: 0;
 			padding:0;
 		}
+		/*
 		div.nav {
 			background: #eee;
 			border-bottom: 1px solid #ccc;
@@ -10,13 +11,13 @@ body{
 		div.nav a{
 			color: #000;
 			text-decoration: none;
-			margin: 4px;
+			margin: 10px;
 		}
 		div.nav a.logo{
 			display: inline-block;
 			text-decoration: none;
-			margin: 4px;
-		}
+			margin: 10px;
+		}*/
 		h3.welcome{
 			font-size: 220%;
 			position:absolute;
