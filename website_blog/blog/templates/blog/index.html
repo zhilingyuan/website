@@ -1,22 +1,20 @@
-{% extends 'base.html' %}
+{% extends 'blog_base.html' %}
 
-{% block title %}
-	我的文章
-{% endblock %}
+{% block sum %}最近{{latest_blog_list|length}}篇博客{% endblock  %}
 
-{% block nav_blog_active %}
-active
-{% endblock %}
 
-{% block content %}
+{% block all_blogs %}		
 	{% for blog in latest_blog_list %}
-	<a href="{% url 'blog:detail' blog.pk %}">
-		<h3>{{blog.title}}</h3>
-	</a>
-	<p>{{blog.author}}</p>
-	<p>{{blog.content|truncatechars:30}}</p>
+		<div class="blog">
+			<a href="{% url 'blog:detail' blog.pk %}">
+			<h3>{{blog.title}}</h3>
+			</a>
+			<p class="information">作者：{{blog.author}} 日期： {{blog.created_time|date:"Y-m-d g:n:s"}} </p>
+			<p>{{blog.content|striptags|truncatechars:120}}</p>
+		</div>
 	{% empty %}
-	<p>--暂无博客--</p>
+		<div class="blog">
+			<p>--暂无博客--</p>
+		</div>
 	{% endfor %}
-	<p>一共有{{latest_blog_list|length}}篇博客</p>
 {% endblock %}
