@@ -1,10 +1,15 @@
 from django.shortcuts import render,get_object_or_404,render_to_response
 from .models import Blog,BlogType
+from comment.models import Comment
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
 from django.template import loader
 from django.core.paginator import Paginator
 from django.db.models import Count
+from read_statistics.utils import read_statistic_once_read
+from django.contrib.contenttypes.models import ContentType
+#from read_statistics.models import Read_Count
+#from django.contrib.contenttypes.models import ContentType
 def blog_list(request):
 	template=loader.get_template('blog/index.html')
 	latest_blog_list=Blog.objects.order_by('-last_updated_time')[:6]
@@ -56,18 +61,18 @@ def blog_list_all(request):
 def blog_detail(request,blog_id):
 	context={}
 	blog=get_object_or_404(Blog,pk=blog_id)
-
-	if not request.COOKIES.get('blog_%s_readed' % blog_id):
-		blog.read_count+=1
-		blog.save()
-
+	read_cookie_key=read_statistic_once_read(request,blog)
+	blog_content_type=ContentType.objects.get_for_model(blog)
+	comments=Comment.objects.filter(content_type=blog_content_type,object_id=blog.pk)	
 	context['blog']=blog
 	context['previous_blog']=Blog.objects.filter(created_time__gt=blog.created_time).last()
 	context['next_blog']=Blog.objects.filter(created_time__lt=blog.created_time).last()
+	context['user']=request.user
+	context['comments']=comments
 	#return render(request,'blog/detail.html',{'blog_id':blog})
-	response=render_to_response('blog/detail.html',context)
+	response=render(request,'blog/detail.html',context)
 	#response.set_cookie('blog_%s_readed' % blog_id,'true',max_age=60,expires=datetime)
-	response.set_cookie('blog_%s_readed' % blog_id,'true')
+	response.set_cookie(read_cookie_key ,'true')
 	return response
 
 def blogs_with_type(request,blogs_type_pk):
@@ -110,7 +115,7 @@ def blogs_with_type(request,blogs_type_pk):
 			created_time__month=blog_date.month).count()
 		blog_dates_dict[blog_date]=blog_count
 	context['blog_dates']=blog_dates_dict
-	return render_to_response('blog/blogs_with_type.html',context)
+	return render(request,'blog/blogs_with_type.html',context)
 
 
 def blogs_with_date(request,year,month):
@@ -154,4 +159,4 @@ def blogs_with_date(request,year,month):
 			created_time__month=blog_date.month).count()
 		blog_dates_dict[blog_date]=blog_count
 	context['blog_dates']=blog_dates_dict
-	return render_to_response('blog/blogs_with_type.html',context)
+	return render(request,'blog/blogs_with_type.html',context)

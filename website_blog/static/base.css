@@ -20,8 +20,20 @@
 		}*/
 		h3.welcome{
 			font-size: 220%;
-			position:absolute;
-			left: 50%;
-			top: 40%;
-			transform: translate(-50%，-50%);
+			text-align: center;
+			margin-top: 2em;
+			margin-bottom: 2em;
+		}
+		div#container{
+			margin: 0 auto;
+			height: 16em;
+			min-width: 20em;
+			max-width: 30em;
+		}
+		ul.blog_types{
+		list-style-type: none;
+	}
+		div.hot_data{
+			text-align: center;
+			margin-top: 2em;
 		}

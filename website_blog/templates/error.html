@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block head %}
+
+<script type="text/javascript" src="{% static 'highcharts.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+	错误
+{% endblock %}
+
+{% block nav_home_active %}
+active
+{% endblock %}
+
+{% block content %}
+	{{ message }},<a href="{{ redirect_to }}">返回</a>
+{% endblock %}

@@ -14,6 +14,12 @@
 		margin-top: 0.6em;
 	}
 	div.blog p.information{
-		margin-bottom: : 0;
+		margin-bottom: : 0; 
 	}
-	
+	div.comment-area{
+		margin-top:2em;
+	}
+	h3.comment-area-title{
+		border-bottom: 1px solid #ccc!important;
+		padding-bottom: 0.4em;
+	}

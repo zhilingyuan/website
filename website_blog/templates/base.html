@@ -8,7 +8,7 @@
 	<title>{% block title %}{% endblock %}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'dist/css/bootstrap.min.css' %}">
-	<script type="text/javascript" src="{% static 'jquery.min.js ' %}" ></script>
+	<script type="text/javascript" src="{% static 'jquery.min.js' %}" ></script>
 	<script type="text/javascript" src="{% static 'dist/js/bootstrap.min.js' %}"></script>
 	{% block head %}
 	{% endblock %}
@@ -40,7 +40,7 @@
 		<a href="/">首页</a>
 		<a href="{% url 'blog:index' %}">博客</a>
 	</div >
--->
+	-->
 	{% block content %}{% endblock %}
 </body>
 </html>
