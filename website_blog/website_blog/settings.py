@@ -110,7 +110,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+#TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -129,6 +130,24 @@ MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 CKEDITOR_UPLOAD_PATH='upload'
+
+CKEDITOR_CONFIGS={
+    'comment_ckeditor':{
+    'toolbar':'custom',
+    'toolbar_custom':[
+    ['Bold','Italic','Underline','Strike','Superscript'],
+    ["TextColor","BGColor",'RemoveFormat'],
+    ['Nuberedlist','BulletedList'],
+    ['Link','Unlink'],
+    ["Smiley","SpecialChar",'Blockquote'],
+    ],
+    'width':'auto',
+    'height':'180',
+    'tabSpaces':4,
+    'removePlugins':'elementspath',
+    'resize_enabled':False,
+    }
+}
 
 CACHES={
     'default':{

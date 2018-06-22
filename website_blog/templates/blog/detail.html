@@ -5,6 +5,8 @@
 {% endblock %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'blog.css' %}">
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js"%}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js"%}"></script>
 {% endblock %}
 {% block content %}
 	<div class="container">
@@ -15,7 +17,7 @@
 				</a>
 				<ul class="blog_info_description">
 				<p>作者：{{blog.author}}</p>
-				<p>日期：{{blog.created_time|date:"Y-m-d g:n:s"}} 阅读次数：{{blog.get_read_count}}</p>
+				<p>日期：{{blog.created_time|date:"Y-m-d H:i:s"}} 阅读次数：{{blog.get_read_count}}</p>
 				<p>分类：
 				<a href="{% url 'blog:blogs_with_type' blog.blog_type.pk %}">
 				{{blog.blog_type}}
@@ -30,7 +32,7 @@
 					{% if next_blog %}
 					<a href="{% url 'blog:detail' next_blog.pk %}"><p>Next:{{next_blog.title}}</p></a> 
 					{% endif %}
-			</div>
+			</div> 
 			</div>
 		</div>
 		<div class="row">
@@ -38,15 +40,23 @@
 				<div class="comment-area">
 				<h3 class="comment-area-title">提交评论区</h3>
 				{% if user.is_authenticated %}
-					<form action="{% url 'update_comment' %}"  method="POST">
+					<form id="comment_form" action="{% url 'update_comment' %}"  method="POST">
+						<label>{{ user.username }},欢迎评论~</label>
 						{% csrf_token %}
+						{% for field in comment_form %}
+						{{ field }}
+						{% endfor %}
+
+					<!--
 						<div class="form-group">
 							<label for="comment_text">{{ user.username }},欢迎评论~</label>
 							<textarea id="comment_text" class="form-control" name="text" rows="4"></textarea>
 						</div>
 						<input type="hidden" name="object_id" value="{{ blog.pk }}">
 						<input type="hidden" name="content_type" value="blog">
-						<input type="submit" name="评论" class="btn btn-primary" style="float:right;">
+					-->
+						<span id="comment_error" class="text-danger pull-left"></span>
+						<input type="submit" name="评论" class="btn btn-primary pull-right">
 					</form>
 				{% else %}
 					未登陆
@@ -57,17 +67,54 @@
 				</div>
 				<div class="comment-area">
 					<h3 class="comment-area-title">评论列表区</h3>
+					<div id='comment_list'>
 					{% for comment in comments %}
 						<div>
 							{{ comment.user.username }}
-							({{ comment.comment_time|date:"Y-m-d H:n:s" }})
-							{{ comment.text }}
+							({{ comment.comment_time|date:"Y-m-d H:i :s" }})
+							{{ comment.text|safe }}
 						</div>
 					{% empty %}
 						暂无评论
 					{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block script_extends %}
+	<script type="text/javascript">
+		$("#comment_form").submit(function(){
+			$("#comment_error").text('');
+			if(CKEDITOR.instances['id_text'].document.getBody().getText().trim()==''){
+				$("#comment_error").text('评论不能为空');
+				return false;
+			}
+			CKEDITOR.instances['id_text'].updateElement()
+			$.ajax({
+				url:"{% url 'update_comment' %}",
+				type:"POST",
+				data:$(this).serialize(),
+				cache:false,
+				success:function(data){
+					console.log(data);
+					if(data['status']=="SUCCESS"){
+					
+					var comment_html='<div>'+data['username']+'('+data['comment_time']+'):'+data['text'] +'</div>';
+					$("#comment_list").prepend(comment_html)
+					CKEDITOR.instances['id_text'].setData('');}
+					else{
+						$("#comment_error").text(data['message']);
+					}
+				},
+				error:function(xhr){
+					console.log(xhr);
+				}
+			})
+			return false;
+		})
+
+	</script>
+
 {% endblock %}

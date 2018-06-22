@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count
 from read_statistics.utils import read_statistic_once_read
 from django.contrib.contenttypes.models import ContentType
+from comment.forms import CommentForm
 #from read_statistics.models import Read_Count
 #from django.contrib.contenttypes.models import ContentType
 def blog_list(request):
@@ -69,6 +70,10 @@ def blog_detail(request,blog_id):
 	context['next_blog']=Blog.objects.filter(created_time__lt=blog.created_time).last()
 	context['user']=request.user
 	context['comments']=comments
+	data={}
+	data['content_type']=blog_content_type.model
+	data['object_id']=blog_id
+	context['comment_form']=CommentForm(initial=data)
 	#return render(request,'blog/detail.html',{'blog_id':blog})
 	response=render(request,'blog/detail.html',context)
 	#response.set_cookie('blog_%s_readed' % blog_id,'true',max_age=60,expires=datetime)
