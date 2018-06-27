@@ -64,16 +64,18 @@ def blog_detail(request,blog_id):
 	blog=get_object_or_404(Blog,pk=blog_id)
 	read_cookie_key=read_statistic_once_read(request,blog)
 	blog_content_type=ContentType.objects.get_for_model(blog)
-	comments=Comment.objects.filter(content_type=blog_content_type,object_id=blog.pk)	
+	comments=Comment.objects.filter(content_type=blog_content_type,object_id=blog.pk,parent=None)	
+	
 	context['blog']=blog
 	context['previous_blog']=Blog.objects.filter(created_time__gt=blog.created_time).last()
 	context['next_blog']=Blog.objects.filter(created_time__lt=blog.created_time).last()
 	context['user']=request.user
-	context['comments']=comments
+	context['comments']=comments.order_by('-comment_time')#评论倒序 而追评顺序
 	data={}
 	data['content_type']=blog_content_type.model
 	data['object_id']=blog_id
-	context['comment_form']=CommentForm(initial=data)
+	context['comment_form']=CommentForm(initial={'content_type':blog_content_type.model,
+		'object_id':blog_id,'reply_comment_id':0})
 	#return render(request,'blog/detail.html',{'blog_id':blog})
 	response=render(request,'blog/detail.html',context)
 	#response.set_cookie('blog_%s_readed' % blog_id,'true',max_age=60,expires=datetime)
