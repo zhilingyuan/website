@@ -71,6 +71,7 @@ def blog_detail(request,blog_id):
 	context['next_blog']=Blog.objects.filter(created_time__lt=blog.created_time).last()
 	context['user']=request.user
 	context['comments']=comments.order_by('-comment_time')#评论倒序 而追评顺序
+	context['comment_count']=Comment.objects.filter(content_type=blog_content_type,object_id=blog.pk).count()
 	data={}
 	data['content_type']=blog_content_type.model
 	data['object_id']=blog_id
