@@ -27,6 +27,7 @@ urlpatterns = [
     path('login/',views.login,name='login'),
     path('comments/',include('comment.urls')),
     path('register/',views.register,name='register'),
+    path('likes/',include('likes.urls')),
 ]
 
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

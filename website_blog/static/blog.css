@@ -34,3 +34,15 @@
 	div.reply{
 		margin-left: 2em;
 	}
+	div.like{
+		color: #337ab7;
+		cursor:pointer;
+		display: inline-block;
+		margin-top: 2em;
+	}
+	div.blog_more{
+		margin-top: 0.5em;
+	}
+	div.like .active{
+		color:#f22;
+	}
