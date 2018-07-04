@@ -9,6 +9,7 @@ from django.db.models import Count
 from read_statistics.utils import read_statistic_once_read
 from django.contrib.contenttypes.models import ContentType
 from comment.forms import CommentForm
+from website_blog.forms import LoginForm
 #from read_statistics.models import Read_Count
 #from django.contrib.contenttypes.models import ContentType
 def blog_list(request):
@@ -77,6 +78,7 @@ def blog_detail(request,blog_id):
 	data['object_id']=blog_id
 	context['comment_form']=CommentForm(initial={'content_type':blog_content_type.model,
 		'object_id':blog_id,'reply_comment_id':0})
+	context['login_form']=LoginForm()
 	#return render(request,'blog/detail.html',{'blog_id':blog})
 	response=render(request,'blog/detail.html',context)
 	#response.set_cookie('blog_%s_readed' % blog_id,'true',max_age=60,expires=datetime)

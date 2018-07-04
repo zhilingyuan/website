@@ -28,6 +28,7 @@ urlpatterns = [
     path('comments/',include('comment.urls')),
     path('register/',views.register,name='register'),
     path('likes/',include('likes.urls')),
+    path('login_form_modal/',views.login_form_modal,name='login_form_modal'),
 ]
 
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
