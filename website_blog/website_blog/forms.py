@@ -31,24 +31,24 @@ class RegForm(forms.Form):
 		label='邮箱',widget=forms.TextInput(
 			attrs={'class':'form-control','placeholder':'y'}))
 	password_again=forms.CharField(
-		label='密码',max_length=20,min_length=6,widget=forms.PasswordInput(
+		label='二次密码',max_length=20,min_length=6,widget=forms.PasswordInput(
 			attrs={'class':'form-control','placeholder':'y'}))
 
 	def clean_username(self):
 		username=self.cleaned_data['username']
-		if User.objects.filter(username=username).exist():
+		if User.objects.filter(username=username).exists():
 			raise forms.ValidationError('用户名存在')
 		return username
 
-	def clean_email():
+	def clean_email(self):
 		email=self.cleaned_data['email']
-		if User.objects.filter(email=email).exist():
+		if User.objects.filter(email=email).exists():
 			raise forms.ValidationError('email存在')
 		return email
 
-	def clean_password():
+	def clean_password_again(self):
 		password=self.cleaned_data['password']
 		password_again=self.cleaned_data['password_again']
 		if password_again!=password:
 			raise forms.ValidationError('密码不一致')
-		return password
+		return password_again

@@ -31,9 +31,12 @@
 			max-width: 30em;
 		}
 		ul.blog_types{
-		list-style-type: none;
+		list-style-type: none!important;
 	}
 		div.hot_data{
 			text-align: center;
 			margin-top: 2em;
+		}
+		ul.navbar-right{
+			margin right:0;
 		}

@@ -29,6 +29,8 @@ urlpatterns = [
     path('register/',views.register,name='register'),
     path('likes/',include('likes.urls')),
     path('login_form_modal/',views.login_form_modal,name='login_form_modal'),
+    path('logout/',views.logout,name='logout'), 
+    path('user_info',views.user_info,name='user_info'),
 ]
 
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

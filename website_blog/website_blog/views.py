@@ -75,10 +75,18 @@ def register(request):
 			#
 			#user.set_password(password)
 			user=auth.authenticate(username=username,password=password)
-			auth.login(user)
+			auth.login(request,user)
 			return redirect(request.GET.get('from',reverse('home')))
 	else:
 		reg_form=RegForm()
 	context={}
 	context['reg_form']=reg_form
 	return render(request,'blog/register.html',context)
+
+def logout(request):
+	auth.logout(request)
+	return redirect(request.GET.get('from',reverse('home')))
+
+def user_info(request):
+	context={}
+	return render(request,'user_info.html',context)
